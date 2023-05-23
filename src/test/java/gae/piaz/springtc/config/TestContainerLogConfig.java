@@ -32,7 +32,7 @@ public class TestContainerLogConfig {
 
         // Attaching the log of the Containers we create to the log of the Spring-Boot app.
         Slf4jLogConsumer logConsumer = new Slf4jLogConsumer(LOGGER);
-        logConsumer.withPrefix("TestContainers LOG ->");
+        logConsumer.withPrefix("TC-LOG--->");
 
         postgresSQLContainer.followOutput(logConsumer);
         redisContainer.followOutput(logConsumer);

@@ -15,6 +15,10 @@ import org.testcontainers.utility.DockerImageName;
 @Configuration
 public class TestContainerConfig {
 
+    public static final String POSTGRES_IMAGE = "postgres:15.1-alpine";
+    public static final String REDIS_IMAGE = "redis:5.0.3-alpine";
+    public static final String KAFKA_IMAGE = "confluentinc/cp-kafka:7.2.1";
+
     @Bean
     // This annotation is used to indicate that this bean will not be re-created if the application
     // restarts due to spring-dev-tools.
@@ -29,7 +33,7 @@ public class TestContainerConfig {
         final long memorySwapInBytes = 128L * 1024L * 1024L;
 
         PostgreSQLContainer container = (PostgreSQLContainer)
-                new PostgreSQLContainer("postgres:15.1-alpine")
+                new PostgreSQLContainer(POSTGRES_IMAGE)
                         .waitingFor(Wait.forLogMessage(".*PostgreSQL init process complete;.*\\n", 1))
                         // The Reusable Containers feature keeps the same containers running between test sessions
                         .withReuse(true)
@@ -53,7 +57,7 @@ public class TestContainerConfig {
         final long memorySwapInBytes = 64L * 1024L * 1024L;
 
         GenericContainer<?> redis =
-                new GenericContainer<>("redis:5.0.3-alpine")
+                new GenericContainer<>(REDIS_IMAGE)
                         .withExposedPorts(6379)
                         .withReuse(true)
                         .withCreateContainerCmdModifier(cmd -> {
@@ -72,7 +76,7 @@ public class TestContainerConfig {
         final long memoryInBytes = 512L * 1024L * 1024L;
         final long memorySwapInBytes = 1024L * 1024L * 1024L;
 
-        return new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.2.1"))
+        return new KafkaContainer(DockerImageName.parse(KAFKA_IMAGE))
                 .withReuse(true).withCreateContainerCmdModifier(cmd -> {
                     cmd.withName("kafka");
                     cmd.getHostConfig()
