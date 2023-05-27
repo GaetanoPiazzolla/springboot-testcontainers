@@ -27,6 +27,9 @@ public class TestContainerLogConfig {
     @Autowired
     private KafkaContainer kafkaContainer;
 
+    @Autowired
+    private GenericContainer pythonContainer;
+
     @PostConstruct
     public void init() {
 
@@ -37,6 +40,7 @@ public class TestContainerLogConfig {
         postgresSQLContainer.followOutput(logConsumer);
         redisContainer.followOutput(logConsumer);
         kafkaContainer.followOutput(logConsumer);
+        pythonContainer.followOutput(logConsumer);
 
     }
 

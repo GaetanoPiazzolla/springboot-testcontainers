@@ -22,22 +22,29 @@ public class CustomerHttpController {
 	private final CustomerService customerService;
 
 	@GetMapping(value = "/customers", produces = "application/json")
-	public List<Customer> customers() {
-		List<Customer> customers = this.customerService.findAll();
+	public List<CustomerDTO> customers() {
+		List<CustomerDTO> customers = this.customerService.findAll();
+		log.info("Found {} customers",customers.size());
+		return customers;
+	}
+
+	@GetMapping(value = "/customers-ext", produces = "application/json")
+	public List<CustomerDTO> customersExt() {
+		List<CustomerDTO> customers = this.customerService.findExternal();
 		log.info("Found {} customers",customers.size());
 		return customers;
 	}
 
 	@GetMapping("/customers/{name}")
-	public List<Customer> byName(@PathVariable String name) {
-		List<Customer> customers = this.customerService.findByName(name);
+	public List<CustomerDTO> byName(@PathVariable String name) {
+		List<CustomerDTO> customers = this.customerService.findByName(name);
 		log.info("Found {} customers",customers.size());
 		return customers;
 	}
 
 	@PostMapping(value = "/customers", consumes = "application/json")
-	public void saveCustomer(@RequestBody CustomerData customerData) {
-		customerService.saveAsync(customerData);
+	public void saveCustomer(@RequestBody CustomerDTO customerDTO) {
+		customerService.saveAsync(customerDTO);
 		log.info("Saved asynchronously a new customer");
 	}
 

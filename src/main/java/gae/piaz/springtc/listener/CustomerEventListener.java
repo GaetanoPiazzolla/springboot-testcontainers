@@ -1,6 +1,6 @@
 package gae.piaz.springtc.listener;
 
-import gae.piaz.springtc.controller.CustomerData;
+import gae.piaz.springtc.controller.CustomerDTO;
 import gae.piaz.springtc.data.Customer;
 import gae.piaz.springtc.data.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,11 @@ class CustomerEventListener {
     private final CustomerRepository customerRepository;
 
     @KafkaListener(topics = "customers")
-    public void handleCustomerCreatedEvent(CustomerData customerData) {
+    public void handleCustomerCreatedEvent(CustomerDTO customerDTO) {
         log.info("Customer event received from customer topic");
         Customer customer = new Customer();
-        customer.setId(customerData.id());
-        customer.setName(customerData.name());
+        customer.setId(customerDTO.id());
+        customer.setName(customerDTO.name());
         customerRepository.save(customer);
     }
 
