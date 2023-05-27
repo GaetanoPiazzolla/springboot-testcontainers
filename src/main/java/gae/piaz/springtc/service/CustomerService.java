@@ -40,11 +40,11 @@ public class CustomerService {
     public List<CustomerDTO> findExternal() {
         String url =
                 env.getProperty("external.server.url") +
-                env.getProperty("external.server.port") +
-                "/customers";
+                        env.getProperty("external.server.port") +
+                        "/customers";
 
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<CustomerDTO[]> extCust = restTemplate.getForEntity(url,CustomerDTO[].class);
+        ResponseEntity<CustomerDTO[]> extCust = restTemplate.getForEntity(url, CustomerDTO[].class);
         return Arrays.asList(extCust.getBody());
     }
 
