@@ -7,9 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
-import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.KafkaContainer;
-import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.containers.output.Slf4jLogConsumer;
 
 @Configuration
@@ -19,16 +17,16 @@ public class TestContainerLogConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(TestApplication.class);
 
     @Autowired
-    private PostgreSQLContainer postgresSQLContainer;
+    private PostgresContainer postgresContainer;
 
     @Autowired
-    private GenericContainer redisContainer;
+    private RedisContainer redisContainer;
 
     @Autowired
     private KafkaContainer kafkaContainer;
 
     @Autowired
-    private GenericContainer pythonContainer;
+    private PythonContainer pythonContainer;
 
     @PostConstruct
     public void init() {
@@ -37,7 +35,7 @@ public class TestContainerLogConfig {
         Slf4jLogConsumer logConsumer = new Slf4jLogConsumer(LOGGER);
         logConsumer.withPrefix("TC-LOG--->");
 
-        postgresSQLContainer.followOutput(logConsumer);
+        postgresContainer.followOutput(logConsumer);
         redisContainer.followOutput(logConsumer);
         kafkaContainer.followOutput(logConsumer);
         pythonContainer.followOutput(logConsumer);
