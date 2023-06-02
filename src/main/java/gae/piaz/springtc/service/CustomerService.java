@@ -1,5 +1,6 @@
 package gae.piaz.springtc.service;
 
+import gae.piaz.springtc.config.RedisConfig;
 import gae.piaz.springtc.controller.CustomerDTO;
 import gae.piaz.springtc.data.CustomerRepository;
 import gae.piaz.springtc.publisher.CustomerEventPublisher;
@@ -13,8 +14,6 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static gae.piaz.springtc.config.RedisConfig.CUSTOMER_CACHE;
 
 @Service
 @RequiredArgsConstructor
@@ -30,7 +29,7 @@ public class CustomerService {
                 new CustomerDTO(customer.getName(), customer.getId())).toList();
     }
 
-    @Cacheable(CUSTOMER_CACHE)
+    @Cacheable(RedisConfig.CUSTOMER_CACHE)
     public List<CustomerDTO> findByName(String name) {
         log.info("------ Hitting database & not using cache! ------ ");
         return customerRepository.findByNameIgnoreCase(name).stream().map(customer ->
@@ -39,7 +38,7 @@ public class CustomerService {
 
     public List<CustomerDTO> findExternal() {
         String url =
-                env.getProperty("external.server.url") +
+                env.getProperty("external.server.host") +
                         env.getProperty("external.server.port") +
                         "/customers";
 
