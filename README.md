@@ -5,6 +5,8 @@ by running the class in `test/gae.piaz.springtc.TestApplication` or through the 
 application uses 4 Containers: Redis, Kafka, Postgres, and a custom Python Flask based app.
 Prerequisite is to have a docker runtime available.
 
+Furtner details and explanations are available here: https://gaetanopiazzolla.github.io/java/docker/springboot/2023/05/27/springboot-tc.html
+
 ---
 CURL Requests :
 
